@@ -161,7 +161,9 @@ void setup() {
 void loop() {
   //=============================touch sensor===========================================
     if (isDoubleClick(TOUCH,180)){  //TUNABLE: 100~200 larger the number is, the easier double touch be detected
+ //    if (true){
         if(Gnum!=0&&Rnum!=0&&!ifalldone){
+        Serial.println("start");
         ifwork=true;
         multiTone(TONE,600,500,1);  //TUNABLE: 600 indicate frequency;500 indicate duration;1 indicate repeat time
         clearAll();
@@ -174,8 +176,8 @@ void loop() {
   //=====================================================================================
   
   //================================bluetooth============================================
-     while (Serial.available() > 0) {   //REPLACE mySerial.available()>0
-         tmp=Serial.read();             //REPLACE mySerial.read()
+     while (mySerial.available() > 0) {   //REPLACE mySerial.available()>0
+         tmp=mySerial.read();             //REPLACE mySerial.read()
          if(tmp=='G'){
            delay(2);
            Gnum=getGroupNumber();
@@ -188,6 +190,7 @@ void loop() {
            Serial.println(Rnum);
          }else if(tmp=='Y'){
            clearAll();
+           Serial.println('Y');
            delay(800);
            ifbt=true;
            intiBrightness();
@@ -235,10 +238,11 @@ void loop() {
                             //delay time
               Serial.println(allaa);
               cRnum++;
-              // REPLACE String strbuff=String(cRnum);
-              // char mes[3];
-              // strbuff.toCharArray(mes,3);
-              // mySerial.println(mes);
+              // REPLACE 
+              String strbuff=String(cRnum);
+              char mes[3];
+              strbuff.toCharArray(mes,3);
+              mySerial.println(mes);
               Serial.println(cRnum);
             }
         }
@@ -248,7 +252,8 @@ void loop() {
           // one group finished
           multiTone(TONE,1800,100,2);
           multiTone(TONE,1800,300,1);
-          Serial.println("Finish");    // REPLACE mySerial.write("Finish"); 
+          Serial.println("Finish");    // REPLACE 
+          mySerial.write("Finish"); 
           cGnum++;
           if(cGnum>=Gnum){
             // all group done
@@ -386,7 +391,7 @@ void Initialize(){
 
 int getGroupNumber(){
   while(1){
-    tmp=Serial.read();  //REPLACE mySerial.read();
+    tmp=mySerial.read();  //REPLACE mySerial.read();
     if(tmp=='D'){
       delay(2);
       return sGnum.toInt();
@@ -398,7 +403,7 @@ int getGroupNumber(){
 
 int getRepeatNumber(){
   while(1){
-    tmp=Serial.read(); //REPLACE tmp=mySerial.read();
+    tmp=mySerial.read(); //REPLACE tmp=mySerial.read();
     if(tmp=='D'){
       return sRnum.toInt();
     }
