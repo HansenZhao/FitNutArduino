@@ -182,6 +182,7 @@ void loop() {
            delay(2);
            Gnum=getGroupNumber();
            sGnum = "";
+           cRnum = 0;
            Serial.println(Gnum);
          }else if(tmp=='N'){
            delay(2);
