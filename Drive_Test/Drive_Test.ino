@@ -8,6 +8,7 @@
 //====================================================================================
 #define PUSHBUTTON  8      //define pin for crash sensor 
 #define TOUCH  8           //define pin for touch sensor 
+#define MOTION 12          //define motor pin
 #define TONE   10          //define pin for tone output
 #define RINGBANDPIN 11     //define pin for led band output 
 #define RINGLED_NUM 12     //define number of led in led band
@@ -95,6 +96,7 @@ void setup() {
     mySerial.begin(9600);
     pinMode(TOUCH,INPUT);
     pinMode(TONE,OUTPUT);
+    pinMode(MOTION,OUTPUT);
     
     strip.begin();
     while (!Serial); // wait for Leonardo enumeration, others continue immediately
