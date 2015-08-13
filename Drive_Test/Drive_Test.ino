@@ -91,13 +91,13 @@ void setup() {
         Fastwire::setup(400, true);
     #endif
     
-    Serial.begin(9600);
+  //  Serial.begin(9600);
     mySerial.begin(9600);
     pinMode(TOUCH,INPUT);
     pinMode(TONE,OUTPUT);
     
     strip.begin();
-    while (!Serial); // wait for Leonardo enumeration, others continue immediately
+  //  while (!Serial); // wait for Leonardo enumeration, others continue immediately
     // NOTE: 8MHz or slower host processors, like the Teensy @ 3.3v or Ardunio
     // Pro Mini running at 3.3v, cannot handle this baud rate reliably due to
     // the baud timing being too misaligned with processor ticks. You must use
@@ -105,17 +105,17 @@ void setup() {
     // crystal solution for the UART timer.
 
     // initialize device
-    Serial.println(F("Initializing I2C devices..."));
+  //  Serial.println(F("Initializing I2C devices..."));
     mpu.initialize();
 
     // verify connection
-    Serial.println(F("Testing device connections..."));
-    Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
+ //   Serial.println(F("Testing device connections..."));
+ //   Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
 
-    while (Serial.available() && Serial.read()); // empty buffer again
+//    while (Serial.available() && Serial.read()); // empty buffer again
 
     // load and configure the DMP
-    Serial.println(F("Initializing DMP..."));
+//    Serial.println(F("Initializing DMP..."));
     devStatus = mpu.dmpInitialize();
 
     // supply your own gyro offsets here, scaled for min sensitivity
@@ -127,16 +127,16 @@ void setup() {
     // make sure it worked (returns 0 if so)
     if (devStatus == 0) {
         // turn on the DMP, now that it's ready
-        Serial.println(F("Enabling DMP..."));
+  //      Serial.println(F("Enabling DMP..."));
         mpu.setDMPEnabled(true);
 
         // enable Arduino interrupt detection
-        Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
+ //       Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
         attachInterrupt(0, dmpDataReady, RISING);
         mpuIntStatus = mpu.getIntStatus();
 
         // set our DMP Ready flag so the main loop() function knows it's okay to use it
-        Serial.println(F("DMP ready! Waiting for first interrupt..."));
+//        Serial.println(F("DMP ready! Waiting for first interrupt..."));
         dmpReady = true;
 
         // get expected DMP packet size for later comparison
@@ -146,9 +146,9 @@ void setup() {
         // 1 = initial memory load failed
         // 2 = DMP configuration updates failed
         // (if it's going to break, usually the code will be 1)
-        Serial.print(F("DMP Initialization failed (code "));
-        Serial.print(devStatus);
-        Serial.println(F(")"));
+ //       Serial.print(F("DMP Initialization failed (code "));
+ //       Serial.print(devStatus);
+ //       Serial.println(F(")"));
     }
 }
 
@@ -161,9 +161,8 @@ void setup() {
 void loop() {
   //=============================touch sensor===========================================
     if (isDoubleClick(TOUCH,180)){  //TUNABLE: 100~200 larger the number is, the easier double touch be detected
- //    if (true){
         if(Gnum!=0&&Rnum!=0&&!ifalldone){
-        Serial.println("start");
+     //   Serial.println("start");
         ifwork=true;
         multiTone(TONE,600,500,1);  //TUNABLE: 600 indicate frequency;500 indicate duration;1 indicate repeat time
         clearAll();
@@ -183,15 +182,15 @@ void loop() {
            Gnum=getGroupNumber();
            sGnum = "";
            cRnum = 0;
-           Serial.println(Gnum);
+      //     Serial.println(Gnum);
          }else if(tmp=='N'){
            delay(2);
            Rnum=getRepeatNumber();
            sRnum = "";
-           Serial.println(Rnum);
+        //   Serial.println(Rnum);
          }else if(tmp=='Y'){
            clearAll();
-           Serial.println('Y');
+        //   Serial.println('Y');
            delay(800);
            ifbt=true;
            intiBrightness();
@@ -237,14 +236,16 @@ void loop() {
             if(allaa>10000){   //TUNABLE: the larger the number is, the less sensitivity the device will have
               delay(400);   //TUNABLE: make sure every action counting once by decrease sensitivity or increse
                             //delay time
-              Serial.println(allaa);
+            //  Serial.println(allaa);
               cRnum++;
               // REPLACE 
-              String strbuff=String(cRnum);
-              char mes[3];
-              strbuff.toCharArray(mes,3);
+              char mes[2];
+           
+                String strbuff=String(cRnum);
+                strbuff.toCharArray(mes,2);
               mySerial.println(mes);
-              Serial.println(cRnum);
+              
+          //    Serial.println(cRnum);
             }
         }
         int restnum=Rnum-cRnum;
@@ -253,14 +254,14 @@ void loop() {
           // one group finished
           multiTone(TONE,1800,100,2);
           multiTone(TONE,1800,300,1);
-          Serial.println("Finish");    // REPLACE 
+       //   Serial.println("Finish");    // REPLACE 
           mySerial.write("Finish"); 
           cGnum++;
           if(cGnum>=Gnum){
             // all group done
             ifwork=false;
             ifalldone=true;
-            Serial.println("All Done!");    
+     //       Serial.println("All Done!");    
           }else{
             // subgroup done
             ifwork=false;
