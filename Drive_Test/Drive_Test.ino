@@ -15,6 +15,8 @@
 #define  ADDSTATE 0        //define constant in add state for slleplight
 #define  SUBSTATE 1        //define constant in sub state for sleeplight 
 
+#define MOTION 12
+
 boolean LedState=ADDSTATE;
 
 #define OUTPUT_READABLE_YAWPITCHROLL
@@ -95,6 +97,7 @@ void setup() {
     mySerial.begin(9600);
     pinMode(TOUCH,INPUT);
     pinMode(TONE,OUTPUT);
+    pinMode(MOTION,OUTPUT);
     
     strip.begin();
   //  while (!Serial); // wait for Leonardo enumeration, others continue immediately
@@ -168,6 +171,9 @@ void loop() {
         clearAll();
         intiBrightness();
         showPercentage(ORA,cGnum,Gnum);
+        digitalWrite(MOTION,HIGH);
+        delay(2000);
+        digitalWrite(MOTION,LOW);
         }else if(ifalldone){
           Initialize();
         }
