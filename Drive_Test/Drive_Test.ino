@@ -171,9 +171,10 @@ void loop() {
         clearAll();
         intiBrightness();
         showPercentage(ORA,cGnum,Gnum);
-        }else if(ifalldone){
-          Initialize();
         }
+    }else if(!digitalread(TOUCH)&&ifalldone){
+        Initialize();
+    }
     }
   //=====================================================================================
   
