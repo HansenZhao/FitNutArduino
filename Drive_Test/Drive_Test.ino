@@ -171,9 +171,6 @@ void loop() {
         clearAll();
         intiBrightness();
         showPercentage(ORA,cGnum,Gnum);
-        digitalWrite(MOTION,HIGH);
-        delay(2000);
-        digitalWrite(MOTION,LOW);
         }else if(ifalldone){
           Initialize();
         }
@@ -374,6 +371,11 @@ boolean isDoubleClick(int pin,int interval){
       cishu=0;
     }
     time1=time2;
+    if (cishu == 2){
+        digitalWrite(MOTION,HIGH);
+        delay(100);
+        digitalWrite(MOTION,LOW);
+    }
     if(cishu>=3){
       cishu=0;
       return true;  

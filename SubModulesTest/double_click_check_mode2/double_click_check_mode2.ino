@@ -1,6 +1,7 @@
 unsigned long time1=0,time2=0; //initiation of Touch timer
 boolean curmode=1;
 uint8_t cishu=0;
+#define MOTION 12
 
 void setup(){
   Serial.begin(9600);
