@@ -352,7 +352,7 @@ void checkAndSetBrightness(int MaxBrightness){
 
 void showRainbow(int time){
   for(uint16_t i=1;i<8;i++){
-    strip.setPixelColor(((i+GobalLoopTime)%RINGLED_NUM),RAI[i]);
+    strip.setPixelColor(((i+GobalLoopTime)%RINGLED_NUM),ORA);
     strip.show();
   }
   delay(time);
